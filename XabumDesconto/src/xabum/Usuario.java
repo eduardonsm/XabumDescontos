@@ -40,5 +40,10 @@ public class Usuario {
 	public String toString() {
 		return  nome + " - " + cpf;
 	}
+
+	public void addCupom(Cupom cupom) {
+		cupons.add(cupom);
+		
+	}
 	
 }

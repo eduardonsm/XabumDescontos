@@ -1,6 +1,6 @@
 package xabum;
 
 public interface Cupom {
-	//public void modificarCompra();
+	public int calculardesconto();
 	public String toString();
 }
