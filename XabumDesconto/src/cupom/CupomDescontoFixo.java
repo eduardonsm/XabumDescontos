@@ -1,10 +1,12 @@
-package xabum;
+package cupom;
+
+import xabum.Compra;
 
 public class CupomDescontoFixo implements Cupom{
 	private double percentualDesconto;
 	private double maxDesconto;
 	public CupomDescontoFixo(double percentualDesconto, double maxDesconto) {
-		this.percentualDesconto = percentualDesconto;
+		this.percentualDesconto = percentualDesconto/100;
 		this.maxDesconto = maxDesconto;
 	}
 	@Override
@@ -15,9 +17,11 @@ public class CupomDescontoFixo implements Cupom{
 				+ maxDesconto;
 	}
 	@Override
-	public int calculardesconto() {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculardesconto(Compra compra) {
+		double desconto = Math.max(percentualDesconto*compra.getValor(),maxDesconto);
+		compra.setValor(compra.getValor()-desconto);
+		return desconto;
+		
 	}
 	
 }

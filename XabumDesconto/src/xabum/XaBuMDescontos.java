@@ -1,8 +1,14 @@
 package xabum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import cupom.Cupom;
+import cupom.CupomDescontoFixo;
+import cupom.CupomDescontoProgressivo;
+import cupom.CupomFreteGratis;
 
 public class XaBuMDescontos {
 	
@@ -47,14 +53,38 @@ public class XaBuMDescontos {
 		Usuario user = pegaUser(cpf);
 		Cupom cupom = cupons.get(indexCupom);
 		user.addCupom(cupom);
+		cupons.set(indexCupom, null);
 		return "adicionado";
 	}
 
-	private Usuario pegaUser(String cpf) {
-		return usuarios.get(cpf);
+	public Usuario pegaUser(String cpf) {
+		return this.usuarios.get(cpf);
 	}
-	public void aplicarDescontoCompra(Compra compra,int indexCupomUsuario) {
+	public String aplicarDescontoCompra(Compra compra,int indexCupomUsuario, String cpf) {
+		return pegaUser(cpf).aplicarCupom(compra,indexCupomUsuario);
+	}
+	public String[] listarCuponsUsuario(String cpf) {
+		 return pegaUser(cpf).listarCupons();
+	}
+	public String[] listarUsuariosPorNome() {
+		ArrayList<Usuario> usuarioOrdenados = new ArrayList<>(usuarios.values());
+		Collections.sort(usuarioOrdenados, new UsuarioNomeComparator());
+		String[] usuariosArray = new String[usuarios.size()];
+		for(int i =0;i<usuarios.size();i++) {
+			usuariosArray[i] = usuarioOrdenados.get(i).toString();
+		}
+		return usuariosArray;
+	}
+	
 		
+	public String[] listarUsuariosPorCuponsTotais() {
+		ArrayList<Usuario> usuarioOrdenados = new ArrayList<>(usuarios.values());
+		Collections.sort(usuarioOrdenados, new UsuarioCuponsComparator());
+		String[] usuariosArray = new String[usuarios.size()];
+		for(int i =0;i<usuarios.size();i++) {
+			usuariosArray[i] = usuarioOrdenados.get(i).toStringCupons();
+		}
+		return usuariosArray;
 	}
 
 }
